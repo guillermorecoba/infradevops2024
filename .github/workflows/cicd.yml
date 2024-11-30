@@ -17,7 +17,6 @@ jobs:
               aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
               aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-              role-to-assume: arn:aws:iam::975050210892:role/LabRole #luego pasar a secrets
               aws-region: us-east-1
     
           - name: Log in to AWS
