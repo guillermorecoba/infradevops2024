@@ -41,7 +41,7 @@ Tiene la capacidad de gestionar el ciclo de vida completo de los recursos, desde
 
 GitHub fue nuestra elección para compartir y versionar el código. La elección se basó en experiencia previa de ambos en la utilización de dicha herramienta, además de la compatibilidad con infinidad de herramientas del mundo de DevOps. Además, nos permite la utilización directa de GitHub Actions para la implementación del CI/CD.
 
-Elegimos este flujo de trabajo con las ramas main, develop y feature debido a su capacidad para organizar de manera eficiente el desarrollo y asegurar la calidad del código a medida que avanzamos en el proyecto, pudiendo llevar un control estricto del versionado del código para poder restaurar en caso de que suceda algun inconveniente. Además nos encontramos más familiarizados con este tipo de metodología.
+Elegimos el flujo de trabajo **GitFlow** con las ramas main, develop y feature debido a su capacidad para organizar de manera eficiente el desarrollo y asegurar la calidad del código a medida que avanzamos en el proyecto, pudiendo llevar un control estricto del versionado del código para poder restaurar en caso de que suceda algun inconveniente. Además nos encontramos más familiarizados con este tipo de metodología.
 
 ![Gitflow](./imagenes/gitflow.png)
 
