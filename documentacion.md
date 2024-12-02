@@ -51,7 +51,7 @@ Como mencionamos en el punto anterior, elegimos GitHub Actions como nuestra herr
 
 ## 3.5 DockerHub
 
-Utilizamos DockerHub para publicar las imágenes de Docker. Si bien posiblemente Amazon Elastic Container Registry (ECR) hubiese sido una opción válida para simplificar un poco más el trabajo, decidimos utilizar DockerHub por un tema de costos y practicidad. Si bien la versión gratuita de DockerHub tiene sus limitaciones, nos era más que necesario para realizar la tarea asignada.
+Utilizamos DockerHub para publicar las imágenes de Docker. Si bien posiblemente Amazon Elastic Container Registry (ECR) hubiese sido una opción válida para simplificar un poco más el trabajo, decidimos utilizar DockerHub por un tema de costos y practicidad. Si bien la versión gratuita de DockerHub tiene sus limitaciones, nos era más que suficiente para realizar la tarea asignada.
 
 ## 3.6 Amazon Web Services
 
