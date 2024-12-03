@@ -65,4 +65,10 @@ Elegimos AWS como plataforma de la nube, en parte porque se nos brindaron cuenta
 
 Elegimos SonarQube como herramienta de análisis de código estático para realizar los análisis tanto de las 4 aplicaciones Backend como de la aplicación Frontend de React. En el CI/CD dejamos automatizado el realizar un análisis cada vez que detecta un cambio. En caso de que el análisis sea exitoso, se procederá con la build.
 
-![Analisis de SonarQube](./imagenes/sonarqube.png)
+![Análisis de SonarQube](./imagenes/sonarqube.png)
+
+## Análisis de SonarQube
+
+Al realizar el análisis de las 4 aplicaciones Backend, los resultados concluyeron en que había algunos "Code Smells" que son indicios de que el código podría mejorarse para ser más limpio, mantenible o legible, pero no necesariamente representan un error crítico que afecte su ejecución. El análisis encontró algunas lineas de código duplicadas que se podrian tratar con el uso de variables, algunas anidaciones con un uso excesivo del "if"s y hacían más complicada la su comprensión a simple vista, y también algunas funciones repetidas en las distintas aplicaciones que no solo no tenían código, sino que tampoco tenían siquiera un comentario del porqué estaban vacias.
+
+En la aplicación de Frontend de React tampoco se encontraron errores críticos pero si encontró uno que se repitió en muchas ocasiones y se refiere a un problema en el estilo del código relacionado con el espaciado entre elementos, que dificulta la legibilidad y mantenibilidad, en especial con el uso de las etiquetas <span>, la solución es tan simple como eliminar los espacios innecesarios en el codigo. Por último tambien encontró imports sin utilizar, que simplemente con borrar los imports se solucionaria para asi evitar dependencias innecesarias y mantener el código un poco más limpio.
