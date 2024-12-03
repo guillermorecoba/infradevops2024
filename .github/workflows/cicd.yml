@@ -1,9 +1,5 @@
 name: DEPLOY_INFRA_AND_APPS
-
 on:
-    push:
-        branches:
-            - develop
     workflow_dispatch:
 jobs:
     DEPLOY_INFRA_TO_AWS:
