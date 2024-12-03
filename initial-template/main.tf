@@ -31,15 +31,15 @@ resource "aws_ecs_task_definition" "shipping-service" {
                 containerPort = 8083
                 }
             ]
-            # logConfiguration = {
-            #     logDriver = ""
-            #     options   = {
-            #         awslogs-create-group  = ""
-            #         awslogs-group         = ""
-            #         awslogs-region        = ""
-            #         awslogs-stream-prefix = ""
-            #     }
-            # }
+            logConfiguration = {
+                logDriver = ""
+                options   = {
+                    awslogs-create-group  = ""
+                    awslogs-group         = ""
+                    awslogs-region        = ""
+                    awslogs-stream-prefix = ""
+                }
+            }
         }
     ])
     
