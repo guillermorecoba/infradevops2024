@@ -1,15 +1,3 @@
-resource "d" "tg-shipping" {
-  name        = "tg-shipping-service-${var.environment}"
-  port        = 8080
-  target_type = "ip"
-  protocol    = "HTTP" # Changed from "TCP" to "HTTP"
-  vpc_id      = var.vpc
-  health_check {
-    path     = "/shipping/c"
-    protocol = "HTTP"
-    matcher  = "200"
-  }
-}
 
 resource "aws_ecs_task_definition" "shipping-service" {
 
@@ -60,11 +48,7 @@ resource "aws_ecs_service" "services" {
     subnets          = [var.subnet1, var.subnet2]
     assign_public_ip = true
   }
-  load_balancer {
-    target_group_arn = aws_lb_target_group.tg-shipping.arn
-    container_name   = "shipping-service-${var.environment}"
-    container_port   = 8080
-  }
+  
   depends_on = [
     aws_ecs_task_definition.shipping-service
   ]

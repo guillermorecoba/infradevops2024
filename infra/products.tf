@@ -1,16 +1,3 @@
-resource "aws_lb_target_group" "tg-products" {
-  name        = "tg-products-${var.environment}"
-  port        = 8080
-  target_type = "ip"
-  protocol    = "HTTP" # Changed from "TCP" to "HTTP"
-  vpc_id      = var.vpc
-  health_check {
-    path     = "/products"
-    protocol = "HTTP"
-    matcher  = "200"
-  }
-}
-
 resource "aws_ecs_task_definition" "products-service" {
 
   family                   = "products-service-${var.environment}"
@@ -51,20 +38,13 @@ resource "aws_ecs_service" "products" {
   deployment_minimum_healthy_percent = "50"
   deployment_maximum_percent         = "100"
   launch_type                        = "FARGATE"
-  # scheduling_strategy                = ""
 
   force_new_deployment = true
-
-  network_configuration {
+    network_configuration {
     subnets          = [var.subnet1, var.subnet2]
     assign_public_ip = true
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.tg-products.arn
-    container_name   = "products-service-${var.environment}"
-    container_port   = 8080
-  }
   depends_on = [
     aws_ecs_task_definition.products-service
   ]
