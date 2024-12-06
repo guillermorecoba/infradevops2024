@@ -77,16 +77,6 @@ resource "aws_security_group" "alb-to-container-security-group" {
   }
 }
 
-resource "aws_lb" "service-load-balancer" {
-  name                       = "service-load-balancer"
-  load_balancer_type         = "application"
-  subnets                    = [var.subnet1, var.subnet2]
-  security_groups            = [aws_security_group.load-balancer-ingress-security-group.id]
-  enable_deletion_protection = false
-  tags = {
-    Environment = var.environment
-  }
-}
 resource "aws_ecs_cluster" "main" {
   name = "${var.environment}_cluster"
   setting {
@@ -94,49 +84,8 @@ resource "aws_ecs_cluster" "main" {
     value = "enabled"
   }
 }
-resource "aws_lb_listener" "lbl-services" {
-  load_balancer_arn = aws_lb.service-load-balancer.arn
-  port              = 80
-  protocol          = "HTTP"
-  default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Fixed response content"
-      status_code  = "200"
-    }
-  }
-}
-resource "aws_lb_listener_rule" "products" {
-  listener_arn = aws_lb_listener.lbl-services.arn
-  priority     = 101
 
-  condition {
-    host_header {
-      values = ["*.products.com"]
-    }
-  }
 
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg-products.arn
-  }
-}
-resource "aws_lb_listener_rule" "shipping" {
-  listener_arn = aws_lb_listener.lbl-services.arn
-  priority     = 100
-
-  condition { 
-  host_header {
-    values = ["*.shipping.com"]
-  }
-  }
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg-shipping.arn
-  }
-}
 #LOAD BALANCER
 
 #END LOAD BALANCER

@@ -1,19 +1,50 @@
-resource "aws_lb_target_group" "tg-products" {
-  name        = "tg-products-${var.environment}"
-  port        = 8080
-  target_type = "ip"
-  protocol    = "HTTP" # Changed from "TCP" to "HTTP"
-  vpc_id      = var.vpc
-  health_check {
-    path     = "/products"
-    protocol = "HTTP"
-    matcher  = "200"
+resource "aws_lb" "dev_products_lb" {
+  name               = "dev-products-lb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.load-balancer-ingress-security-group.id]
+  subnets            = [var.subnet1, var.subnet2]
+
+  tags = {
+    Name = "dev-products-lb"
   }
 }
 
-resource "aws_ecs_task_definition" "products-service" {
+resource "aws_lb_target_group" "dev_products_tg" {
+  name        = "dev-products-tg"
+  port        = 8080
+  protocol    = "HTTP"
+  vpc_id      = var.vpc
+  target_type = "ip"
+  health_check {
+    healthy_threshold   = "3"
+    interval            = "300"
+    protocol            = "HTTP"
+    matcher             = "200,404"
+    timeout             = "3"
+    path                = "/"
+    unhealthy_threshold = "2"
+  }
 
-  family                   = "products-service-${var.environment}"
+  tags = {
+    Name = "dev-products-tg"
+  }
+}
+
+resource "aws_lb_listener" "dev_products_listener" {
+  load_balancer_arn = aws_lb.dev_products_lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.dev_products_tg.arn
+  }
+}
+
+resource "aws_ecs_task_definition" "products-service-develop" {
+
+  family                   = "products-service-develop"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 256
@@ -22,8 +53,8 @@ resource "aws_ecs_task_definition" "products-service" {
   task_role_arn            = "arn:aws:iam::975050210892:role/LabRole"
   container_definitions = jsonencode([
     {
-      name  = "products-service-${var.environment}"
-      image = "gr2001/products-service-${var.environment}:latest"
+      name  = "products-service-develop"
+      image = "gr2001/products-service-develop:latest"
       environment = [
         {
           "" : ""
@@ -44,14 +75,14 @@ resource "aws_ecs_task_definition" "products-service" {
   }
 }
 resource "aws_ecs_service" "products" {
-  name                               = "products-service-${var.environment}"
+  name                               = "products-service-develop"
   cluster                            = aws_ecs_cluster.main.id
-  task_definition                    = aws_ecs_task_definition.products-service.arn
+  task_definition                    = aws_ecs_task_definition.products-service-develop.arn
   desired_count                      = "2"
   deployment_minimum_healthy_percent = "50"
   deployment_maximum_percent         = "100"
   launch_type                        = "FARGATE"
-  # scheduling_strategy                = ""
+  enable_ecs_managed_tags            = true # It will tag the network interface with service name
 
   force_new_deployment = true
 
@@ -61,11 +92,11 @@ resource "aws_ecs_service" "products" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.tg-products.arn
-    container_name   = "products-service-${var.environment}"
+    target_group_arn = aws_lb_target_group.dev_products_tg.arn
+    container_name   = "products-service-develop"
     container_port   = 8080
   }
   depends_on = [
-    aws_ecs_task_definition.products-service
+    aws_ecs_task_definition.products-service-develop
   ]
 }
