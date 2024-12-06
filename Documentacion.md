@@ -80,3 +80,12 @@ En la aplicación de Frontend de React tampoco se encontraron errores críticos 
 En los pasos de CI/CD de GitHub Actions, agregamos que se realize una prueba automatizada de Postman para comprobar que los endpoints estan funcionando de manera correcta. En este caso, el reporte muestra la ejecución de pruebas en el endpoint /shipping/c, el cual respondió correctamente con un código de estado 200 y un tiempo promedio de respuesta de 165ms. 
 
 Se realizaron cuatro verificaciones: que el código de respuesta sea 200, que la respuesta incluya los campos status e id, y que ambos sean cadenas no vacías. Todas las pruebas pasaron exitosamente, lo que confirma que el endpoint está funcionando correctamente, devuelve los datos esperados y tiene un tiempo de respuesta adecuado.
+
+## Tarea con Servicio Serverless
+
+Para esta tarea elegimos un servicio de AWS Lambda, al S3 Bucket donde se despliega la aplicación React le agregamos en las propiedades, una Notificación de Evento que detecta cuando se realiza el deploy dentro del Bucket y dispara la Funcion Lambda que esta configurada en Python para enviarnos un mail con la notificación que de la aplicación React fue desplegada con éxito. 
+
+El Amazon Simple Email Service (SES) no estaba disponible por una cuestion de permisos, por lo que encontramos otra solución, simple pero funcional. Mediante SMTP (Simple Mail Transfer Protocol) de Gmail logramos configurar el envio del correo. 
+
+![Email](./imagenes/lambda.png)
+
