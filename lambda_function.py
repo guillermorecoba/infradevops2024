@@ -1,14 +1,25 @@
+import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 def lambda_handler(event, context):
-  
-    sender_email = "lineage2reforged@gmail.com" # es el mail secundario que tenia
-    receiver_email = "guirever@gmail.com"
+    sender_email = os.environ['SENDER_EMAIL']  
+    sender_password = os.environ['SENDER_PASSWORD']  
+    receiver_email = os.environ['RECEIVER_EMAIL'] 
+    
+    records = event.get('Records', [])
+    if not records:
+        return {
+            'statusCode': 400,
+            'body': "No se encontraron registros en el evento."
+        }
+    
+    bucket_name = records[0]['s3']['bucket']['name']
+    
     subject = "Deploy exitoso"
-    body = "El deploy de la aplicación de React en el Bucket de S3 fue exitoso"
-
+    body = f"El deploy de la aplicación de React en el bucket {bucket_name} fue exitoso."
+    
     msg = MIMEMultipart()
     msg['From'] = sender_email
     msg['To'] = receiver_email
@@ -18,7 +29,7 @@ def lambda_handler(event, context):
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls() 
-        server.login(sender_email, "zsdombmzngcxytmm") 
+        server.login(sender_email, sender_password)  
         text = msg.as_string()
         server.sendmail(sender_email, receiver_email, text)
         server.quit()
