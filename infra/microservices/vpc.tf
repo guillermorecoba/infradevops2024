@@ -1,5 +1,9 @@
-variable "environment" {
-  default = "develop"
+variable "environments" {
+  default = {
+    develop = "develop"
+    staging = "staging"
+    main    = "main"
+  }
 }
 
 variable "services" {
@@ -17,36 +21,6 @@ variable "subnet2" {
 variable "vpc" {
   default = "vpc-055225dfe440522a7"
 }
-
-
-# resource "aws_vpc" "main" {
-#  cidr_block           = "10.0.0.0/16"
-#  enable_dns_hostnames = true
-#  tags = {
-#    name = var.environment
-#  }
-# }
-
-# resource "aws_internet_gateway" "igw" {
-#   vpc_id = aws_vpc.main.id
-#   tags = {
-#     name = "${var.environment}-igw"
-#   }
-# }
-
-# resource "aws_subnet" "subnet" {
-#  vpc_id                  = aws_vpc.main.id
-#  cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, 1)
-#  map_public_ip_on_launch = true
-#  availability_zone       = "us-east-1a" 
-# }
-
-# resource "aws_subnet" "subnet2" {
-#  vpc_id                  = aws_vpc.main.id
-#  cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, 2)
-#  map_public_ip_on_launch = true
-#  availability_zone       = "us-east-1b"
-# }
 
 resource "aws_security_group" "load-balancer-ingress-security-group" {
   name   = "load-balancer-ingress-security-group"
@@ -77,15 +51,11 @@ resource "aws_security_group" "alb-to-container-security-group" {
   }
 }
 
-resource "aws_ecs_cluster" "main" {
-  name = "${var.environment}_cluster"
+resource "aws_ecs_cluster" "cluster" {
+  for_each = var.environments
+  name     = "cluster-${each.value}"
   setting {
     name  = "containerInsights"
     value = "enabled"
   }
 }
-
-
-#LOAD BALANCER
-
-#END LOAD BALANCER
