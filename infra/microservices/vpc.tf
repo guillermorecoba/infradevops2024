@@ -6,12 +6,6 @@ variable "environments" {
   }
 }
 
-variable "services" {
-  default = {
-    "payments" = "gr2001/products-service"
-    "shipping" = "gr2001/shipping-service"
-  }
-}
 variable "subnet1" {
   default = "subnet-0c83d89ef3025830f"
 }
@@ -23,7 +17,7 @@ variable "vpc" {
 }
 
 resource "aws_security_group" "load-balancer-ingress-security-group" {
-  name   = "load-balancer-ingress-security-group"
+  name   = "load-balancer-security-group"
   vpc_id = var.vpc
   ingress {
     from_port        = 80
