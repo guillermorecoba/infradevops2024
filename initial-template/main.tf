@@ -13,8 +13,6 @@ resource "aws_ecs_task_definition" "shipping-service" {
     requires_compatibilities = ["FARGATE"]
     cpu                      = 256
     memory                   = 512
-    # execution_role_arn       = "arn:aws:iam::975050210892:role/LabRole"
-    # task_role_arn            = "arn:aws:iam::975050210892:role/LabRole"
     container_definitions = jsonencode([
         {
             name      = "shipping-service-${var.enviroment}"
@@ -56,7 +54,6 @@ resource "aws_ecs_service" "develop" {
     deployment_minimum_healthy_percent = "1"
     deployment_maximum_percent         = "2"
     launch_type                        = "FARGATE"
-    # scheduling_strategy                = ""
     
     force_new_deployment = true
 
