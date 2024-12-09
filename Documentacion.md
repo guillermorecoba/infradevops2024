@@ -31,43 +31,38 @@ Mediante la implementación de un modelo DevOps, buscamos aprovechar al máximo 
 
 Utilizamos el tablero de Kanban de Azure DevOps para organizarnos de una manera estructurada. Con 3 columnas en donde íbamos agrupando las tareas en "To Do", "In progress" y "Completed". Los tableros Kanban no tienen mucha complicación, ya que son fáciles de entender a simple vista. La elección de utilizar Azure DevOps fue simplemente por practicidad, ya que teníamos las cuentas creadas y habíamos tenido un acercamiento en el práctico de Scrum.
 
+![Tablero de Kanban](./imagenes/kanban.png)
+
 ## 4.2 Versionado de código
 
 GitHub fue nuestra elección para compartir y versionar el código. La elección se basó en experiencia previa de ambos en la utilización de dicha herramienta, además de la compatibilidad con infinidad de herramientas del mundo de DevOps. Además, nos permite la utilización directa de GitHub Actions para la implementación del CI/CD.
 
 Elegimos el flujo de trabajo **GitFlow** con las 3 ramas fijas : main, develop y staging. Esta elección se debió a la capacidad que nos brinda para organizar de manera eficiente el desarrollo y asegurar la calidad del código a medida que avanzamos en el proyecto, pudiendo llevar un control estricto del versionado del código para poder restaurar en caso de que suceda algun inconveniente. Además nos encontramos más familiarizados con este flujo.
 
+![Gitflow](./imagenes/gitflow.png)
+
 Links de los repositorios de microservicios y de frontend : 
 
-Payments service: https://github.com/carlosgilard/payments-service
-Shipping service: https://github.com/carlosgilard/shipping-service
-Product service: https://github.com/carlosgilard/products-service
-Orders service: https://github.com/carlosgilard/orders-service
-
-Frontend: https://github.com/carlosgilard/devops-react-frontend
-
-
-![Tablero de Kanban](./imagenes/kanban.png)
+- Payments service: https://github.com/carlosgilard/payments-service
+- Shipping service: https://github.com/carlosgilard/shipping-service
+- Product service: https://github.com/carlosgilard/products-service
+- Orders service: https://github.com/carlosgilard/orders-service
+- Frontend: https://github.com/carlosgilard/devops-react-frontend
 
 ## 4.3 CI/CD
 
 Como mencionamos en el punto anterior, elegimos GitHub Actions como nuestra herramienta de CI/CD por su integración nativa con GitHub, lo que facilita la automatización de flujos de trabajo directamente en los repositorios de código. Al estar diseñado específicamente para GitHub, no requiere configuraciones adicionales para conectar el código fuente con las pipelines, simplificando y agilizando el proceso de despliegue.
 
-
- /*esto lo sacaria */Su modelo de precios basado en uso (minutos de ejecución) y la disponibilidad de minutos gratuitos en planes iniciales lo convierten en una solución eficiente y económica, especialmente adecuada para proyectos pequeños y medianos.
-
-
-![Gitflow](./imagenes/gitflow.png)
-
-## 3.3 GitHub Actions
+En cada uno de los pipelines de los microservicios, realizamos pruebas de código estático, ejecutamos la aplicación y la dockerizamos, subimos la imagen generada a un repositorio público, y posteriormente llevamos a cabo pruebas automatizadas con Postman para validar el correcto funcionamiento de los microservicios.
 
 
-
-## 3.4 Terraform
+## 4.5 Infraestructura
 
 Elegimos Terraform como herramienta de despliegue de Infraestructura como Código (IaC) debido a su flexibilidad y compatibilidad con múltiples proveedores de nube. Terraform nos permite describir la infraestructura deseada en archivos de configuración que son fáciles de leer, versionar y mantener, asegurando consistencia y replicabilidad en los entornos de desarrollo, pruebas y producción.
 
 Tiene la capacidad de gestionar el ciclo de vida completo de los recursos, desde la creación hasta la eliminación, facilita la automatización y minimiza errores humanos. Además, su soporte para múltiples proveedores, como AWS, Azure y Google Cloud, y que haya sido la única herramienta de IaC con una guía en los prácticos, facilitaron nuestra decisión.
+
+
 
 ## 3.5 DockerHub
 
