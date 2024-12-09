@@ -55,6 +55,7 @@ Como mencionamos en el punto anterior, elegimos GitHub Actions como nuestra herr
 
 En cada uno de los pipelines de los microservicios, realizamos pruebas de código estático, ejecutamos la aplicación y la dockerizamos, subimos la imagen generada a un repositorio público, y posteriormente llevamos a cabo pruebas automatizadas con Postman para validar el correcto funcionamiento de los microservicios.
 
+![cicd](./imagenes/cicd_diagram.png)
 
 ## 4.4 Infraestructura
 
