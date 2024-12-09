@@ -69,9 +69,9 @@ resource "aws_ecs_task_definition" "orders-service" {
       environment = [
         {
           name = "APP_ARGS"
-          value = join(" ", [aws_lb.payments_lb[each.value].dns_name,
-            aws_lb.shipping_lb[each.value].dns_name,
-          aws_lb.products_lb[each.value].dns_name])
+          value = join(" ", ["http://${aws_lb.payments_lb[each.value].dns_name}",
+            "http://${aws_lb.shipping_lb[each.value].dns_name}",
+          "http://${aws_lb.products_lb[each.value].dns_name}"])
         }
       ]
       essential = true
@@ -96,7 +96,9 @@ resource "aws_ecs_task_definition" "orders-service" {
   ]
 
   tags = {
-    Name = join(" ", [aws_lb.payments_lb[each.value].dns_name, aws_lb.shipping_lb[each.value].dns_name, aws_lb.products_lb[each.value].dns_name])
+    Name = join(" ", ["http://${aws_lb.payments_lb[each.value].dns_name}",
+            "http://${aws_lb.shipping_lb[each.value].dns_name}",
+          "http://${aws_lb.products_lb[each.value].dns_name}"])
   }
 
 }
