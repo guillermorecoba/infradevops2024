@@ -1,4 +1,4 @@
-# Documentacion de Obligatorio DevOps 2024
+# Proyecto Obligatorio DEVOPS 2024S2 - CARLOS GILARDONI, GUILLERMO RECOBA
 
 Guillermo Recoba
 Carlos Gilardoni
