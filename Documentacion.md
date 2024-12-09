@@ -7,44 +7,67 @@
 Una empresa líder en retail se encuentra en la transición digital, los desafíos que se le presentaron evidenciaron la brecha cultural entre los equipos de desarrollo y operaciones. Durante el lanzamiento de una aplicación innovadora destinada a revolucionar la experiencia de compra de los usuarios, los despliegues frecuentes generaron errores y caídas, afectando la experiencia del usuario. Esto reflejó una desconexión en la comunicación y en la responsabilidad compartida, donde desarrollo priorizaba la velocidad mientras operaciones se centraba en la estabilidad. Reconociendo que el problema no era técnico sino organizativo, se identificó la necesidad de fomentar una cultura colaborativa. Este cambio busca alinear objetivos y mejorar procesos, sentando las bases para una operación ágil y resiliente. Por lo tanto, se le solicita al equipo de proyecto un plan de acción detallado que no solo aborde las ineficiencias operativas evidentes sino que también fomente un ambiente de colaboración, transparencia y aprendizaje continuo. Se espera que mediante la solución planteada la empresa no sólo supere los obstáculos actuales sino que también sentará las bases para una agilidad y resiliencia operativa a largo plazo, asegurando así su posición competitiva en el mercado.
 
 # 2. Solución planteada
+Implementamos un modelo DevOps que nos permite maximizar los beneficios de esta metodología, reduciendo costos mediante el uso de servicios en la nube, donde solo pagamos por lo que utilizamos. Esto también nos proporciona una infraestructura escalable y flexible para adaptarnos a cualquier eventualidad, disminuye el time-to-market y optimiza los procesos gracias a la configuración como Infraestructura como Código (IaC), lo que elimina errores humanos y facilita la implementación de CI/CD.
+
+Para ello, utilizamos AWS como proveedor principal de servicios en la nube, GitHub como repositorio de código y GitHub Actions para el CI/CD de todos los repositorios, excepto el de infraestructura. Además, cada pipeline de los microservicios incluye el análisis estático de código con SonarQube y pruebas automatizadas realizadas con Postman, garantizando así la calidad y confiabilidad de las aplicaciones.
 
 Mediante la implementación de un modelo DevOps, buscamos aprovechar al máximo los beneficios que nos provee esta metodología para así solucionar o disminuir considerablemente los problemas de comunicación entre los equipos, además de reducir los costos gracias a que al usar los servicios de Cloud solo se nos computa los gastos de lo que utilizamos, tener a disposición una infraestructura escalable y flexible para estar prevenidos ante cualquier acontecimiento, disminuir el time-to-market, etc. Todo esto es además configurado como Infraestructura como código (IaC) para normalizar el tiempo en que lleven los procesos quitando el factor del error humano y así facilitando los procesos de CI/CD.
 
 # 3. Herramientas utilizadas
 
 - **Azure DevOps** - Tablero Kanban para planificación y seguimiento de tareas
-- **Terraform** - Manejo de la IaC
 - **GitHub** - Manejo de Git/Versionado de código
 - **GitHub Actions** - Manejo del CI/CD
+- **Terraform** - Manejo de la IaC
 - **DockerHub** - Almacenamiento y distribución de imágenes Docker
 - **Amazon Web Services** - Plataforma de servicios Cloud
 - **Amazon Elastic Container Service** - Orquestador de contenedores
 - **SonarQube** - Análisis de código estático
 - **Lambda** - Servicio serverless 
 
-## 3.1 Azure DevOps
+# 4. Flujos de trabajo
+
+## 4.1 Planificacion y seguimiento de tareas
 
 Utilizamos el tablero de Kanban de Azure DevOps para organizarnos de una manera estructurada. Con 3 columnas en donde íbamos agrupando las tareas en "To Do", "In progress" y "Completed". Los tableros Kanban no tienen mucha complicación, ya que son fáciles de entender a simple vista. La elección de utilizar Azure DevOps fue simplemente por practicidad, ya que teníamos las cuentas creadas y habíamos tenido un acercamiento en el práctico de Scrum.
 
+## 4.2 Versionado de código
+
+GitHub fue nuestra elección para compartir y versionar el código. La elección se basó en experiencia previa de ambos en la utilización de dicha herramienta, además de la compatibilidad con infinidad de herramientas del mundo de DevOps. Además, nos permite la utilización directa de GitHub Actions para la implementación del CI/CD.
+
+Elegimos el flujo de trabajo **GitFlow** con las 3 ramas fijas : main, develop y staging. Esta elección se debió a la capacidad que nos brinda para organizar de manera eficiente el desarrollo y asegurar la calidad del código a medida que avanzamos en el proyecto, pudiendo llevar un control estricto del versionado del código para poder restaurar en caso de que suceda algun inconveniente. Además nos encontramos más familiarizados con este flujo.
+
+Links de los repositorios de microservicios y de frontend : 
+
+Payments service: https://github.com/carlosgilard/payments-service
+Shipping service: https://github.com/carlosgilard/shipping-service
+Product service: https://github.com/carlosgilard/products-service
+Orders service: https://github.com/carlosgilard/orders-service
+
+Frontend: https://github.com/carlosgilard/devops-react-frontend
+
+
 ![Tablero de Kanban](./imagenes/kanban.png)
 
-## 3.2 Terraform
+## 4.3 CI/CD
+
+Como mencionamos en el punto anterior, elegimos GitHub Actions como nuestra herramienta de CI/CD por su integración nativa con GitHub, lo que facilita la automatización de flujos de trabajo directamente en los repositorios de código. Al estar diseñado específicamente para GitHub, no requiere configuraciones adicionales para conectar el código fuente con las pipelines, simplificando y agilizando el proceso de despliegue.
+
+
+ /*esto lo sacaria */Su modelo de precios basado en uso (minutos de ejecución) y la disponibilidad de minutos gratuitos en planes iniciales lo convierten en una solución eficiente y económica, especialmente adecuada para proyectos pequeños y medianos.
+
+
+![Gitflow](./imagenes/gitflow.png)
+
+## 3.3 GitHub Actions
+
+
+
+## 3.4 Terraform
 
 Elegimos Terraform como herramienta de despliegue de Infraestructura como Código (IaC) debido a su flexibilidad y compatibilidad con múltiples proveedores de nube. Terraform nos permite describir la infraestructura deseada en archivos de configuración que son fáciles de leer, versionar y mantener, asegurando consistencia y replicabilidad en los entornos de desarrollo, pruebas y producción.
 
 Tiene la capacidad de gestionar el ciclo de vida completo de los recursos, desde la creación hasta la eliminación, facilita la automatización y minimiza errores humanos. Además, su soporte para múltiples proveedores, como AWS, Azure y Google Cloud, y que haya sido la única herramienta de IaC con una guía en los prácticos, facilitaron nuestra decisión.
-
-## 3.3 GitHub
-
-GitHub fue nuestra elección para compartir y versionar el código. La elección se basó en experiencia previa de ambos en la utilización de dicha herramienta, además de la compatibilidad con infinidad de herramientas del mundo de DevOps. Además, nos permite la utilización directa de GitHub Actions para la implementación del CI/CD.
-
-Elegimos el flujo de trabajo **GitFlow** con las ramas main, develop y feature debido a su capacidad para organizar de manera eficiente el desarrollo y asegurar la calidad del código a medida que avanzamos en el proyecto, pudiendo llevar un control estricto del versionado del código para poder restaurar en caso de que suceda algun inconveniente. Además nos encontramos más familiarizados con este tipo de metodología.
-
-![Gitflow](./imagenes/gitflow.png)
-
-## 3.4 GitHub Actions
-
-Como mencionamos en el punto anterior, elegimos GitHub Actions como nuestra herramienta de CI/CD por su integración nativa con GitHub, lo que facilita la automatización de flujos de trabajo directamente en los repositorios de código. Al estar diseñado específicamente para GitHub, no requiere configuraciones adicionales para conectar el código fuente con las pipelines, simplificando y agilizando el proceso de despliegue. Su modelo de precios basado en uso (minutos de ejecución) y la disponibilidad de minutos gratuitos en planes iniciales lo convierten en una solución eficiente y económica, especialmente adecuada para proyectos pequeños y medianos.
 
 ## 3.5 DockerHub
 
