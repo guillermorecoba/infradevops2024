@@ -62,6 +62,7 @@ Elegimos Terraform como herramienta de despliegue de Infraestructura como Códig
 
 Tiene la capacidad de gestionar el ciclo de vida completo de los recursos, desde la creación hasta la eliminación, facilita la automatización y minimiza errores humanos. Además, su soporte para múltiples proveedores, como AWS, Azure y Google Cloud, y que haya sido la única herramienta de IaC con una guía en los prácticos, facilitaron nuestra decisión.
 
+### 4.4.1 Microservicios
 Se utiliza como entrada las VPC y subnets recibidas a través de variables, se utilizan por defectos las predeterminadas de la cuenta de AWS Learner Lab de Guillermo. Para cada microservicio y entorno asociado, se crean de manera automatizada los siguientes recursos:
 
 - Un load balancer específico para cada microservicio.
@@ -70,7 +71,24 @@ Se utiliza como entrada las VPC y subnets recibidas a través de variables, se u
 - Un cluster ECS para gestionar las task de los microservicios.
 - Una task definition para definir la configuración del contenedor del microservicio. Cada task definition utiliza la imagen que corresponda al microservicio y al ambiente.
 - Un ECS service por cada microservicio y entorno, encargado de mantener la ejecución de las tareas en el cluster. Para cada microservicio se ejecutan 2 instancias del contenedor.
-- 
+
+### 4.4.2 Frontend
+Se generan los siguientes recursos: 
+Buckets S3 (aws_s3_bucket) : uno para cada ambiente, aqui se almacena el código de la aplicación frontend compilado.
+Control de acceso público (aws_s3_bucket_public_access_block) : configuración para permitir el acceso público a cada uno de los sitios.
+Configuración de website estático (aws_s3_bucket_website_configuration.static_website): hace que los buckets funcionen como un alojamiento de un sitio web estático.
+Versionado de objetos (aws_s3_bucket_versioning.versioning_example): para mantener un historial de cambios de los buckets.
+Política de acceso (aws_s3_bucket_policy.allow_access_from_another_account): políticas de acceso, en este caso otorga todos los permisos a todos los usuarios.
+
+Además, se implementa una función Lambda , hecha para activarse cuando se actualiza el archivo index.html en cualquiera de los buckets S3 (estas actualizaciones se gestionan desde el flujo de CI/CD). La función se configura con los siguientes recursos:
+
+Permiso Lambda (aws_lambda_permission.allow_s3): permite que los eventos de los buckets S3 invoquen la función Lambda.
+Notificación del bucket S3 (aws_s3_bucket_notification.bucket_notification): establece la relación entre las actualizaciones del bucket y la ejecución de la función Lambda.
+Este enfoque automatiza la gestión de contenidos estáticos y facilita la integración continua entre los buckets S3 y las funciones Lambda.
+
+Se es
+
+
 ## 4.5 Análisis de codigo estático
 
 Al realizar el análisis de las 4 aplicaciones Backend, los resultados concluyeron en que había algunos "Code Smells" que son indicios de que el código podría mejorarse para ser más limpio, mantenible o legible, pero no necesariamente representan un error crítico que afecte su ejecución. El análisis encontró algunas lineas de código duplicadas que se podrian tratar con el uso de variables, algunas anidaciones con un uso excesivo del "if"s y hacían más complicada la su comprensión a simple vista, y también algunas funciones repetidas en las distintas aplicaciones que no solo no tenían código, sino que tampoco tenían siquiera un comentario del porqué estaban vacias.
