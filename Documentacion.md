@@ -1,6 +1,6 @@
 # Proyecto Obligatorio DEVOPS 2024S2 - CARLOS GILARDONI, GUILLERMO RECOBA
 
-/*INSERTAR IMAGEN DE ORT*/
+![logort](./imagenes/ortlogo.jpg)
 
 # 1. Presentación del problema
 
