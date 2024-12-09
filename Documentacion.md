@@ -96,7 +96,22 @@ En la aplicación de Frontend de React tampoco se encontraron errores críticos 
 
 ## 4.6 Prueba Extra (Prueba Automatizada con Postman)
 
-![Test automatico de Postman](./imagenes/testpostman.png)
+- Test automatico de Orders
+
+![Test automatico de Orders](./imagenes/testorders.png)
+
+- Test automatico de Products
+
+![Test automatico de Products](./imagenes/testproducts.png)
+
+- Test automatico de Payments
+
+![Test automatico de Payments](./imagenes/testpayments.png)
+
+- Test automatico de Shipping
+
+![Test automatico de Shipping](./imagenes/testshipping.png)
+
 
 En los pasos de CI/CD de GitHub Actions, agregamos que se realize una prueba automatizada de Postman para comprobar que los endpoints estan funcionando de manera correcta. En este caso, el reporte muestra la ejecución de pruebas en el endpoint /shipping/c, el cual respondió correctamente con un código de estado 200 y un tiempo promedio de respuesta de 165ms. 
 
