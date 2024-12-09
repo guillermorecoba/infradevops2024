@@ -97,8 +97,8 @@ resource "aws_ecs_task_definition" "orders-service" {
 
   tags = {
     Name = join(" ", ["http://${aws_lb.payments_lb[each.value].dns_name}",
-            "http://${aws_lb.shipping_lb[each.value].dns_name}",
-          "http://${aws_lb.products_lb[each.value].dns_name}"])
+      "http://${aws_lb.shipping_lb[each.value].dns_name}",
+    "http://${aws_lb.products_lb[each.value].dns_name}"])
   }
 
 }
