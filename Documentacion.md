@@ -75,17 +75,17 @@ Se utiliza como entrada las VPC y subnets recibidas a través de variables, se u
 
 ### 4.4.2 Frontend
 Se generan los siguientes recursos: 
-Buckets S3 (aws_s3_bucket) : uno para cada ambiente, aqui se almacena el código de la aplicación frontend compilado.
-Control de acceso público (aws_s3_bucket_public_access_block) : configuración para permitir el acceso público a cada uno de los sitios.
-Configuración de website estático (aws_s3_bucket_website_configuration.static_website): hace que los buckets funcionen como un alojamiento de un sitio web estático.
-Versionado de objetos (aws_s3_bucket_versioning.versioning_example): para mantener un historial de cambios de los buckets.
-Política de acceso (aws_s3_bucket_policy.allow_access_from_another_account): políticas de acceso, en este caso otorga todos los permisos a todos los usuarios.
+- Buckets S3 (aws_s3_bucket) : uno para cada ambiente, aqui se almacena el código de la aplicación frontend compilado.
+- Control de acceso público (aws_s3_bucket_public_access_block) : configuración para permitir el acceso público a cada uno de los sitios.
+- Configuración de website estático (aws_s3_bucket_website_configuration.static_website): hace que los buckets funcionen como un alojamiento de un sitio web estático.
+- Versionado de objetos (aws_s3_bucket_versioning.versioning_example): para mantener un historial de cambios de los buckets.
+- Política de acceso (aws_s3_bucket_policy.allow_access_from_another_account): políticas de acceso, en este caso otorga todos los permisos a todos los usuarios.
 
 Además, se implementa una función Lambda , hecha para activarse cuando se actualiza el archivo index.html en cualquiera de los buckets S3 (estas actualizaciones se gestionan desde el flujo de CI/CD).
 La función ejecuta un script escrito en phyton para mandar un email al e-mail de Guillermo (guirever@gmail.com) notificando que el deploy de la función se realizó exitosamente. La función se configura con los siguientes recursos:
 
-Permiso Lambda (aws_lambda_permission.allow_s3): permite que los eventos de los buckets S3 invoquen la función Lambda.
-Notificación del bucket S3 (aws_s3_bucket_notification.bucket_notification): establece la relación entre las actualizaciones del bucket y la ejecución de la función Lambda.
+- Permiso Lambda (aws_lambda_permission.allow_s3): permite que los eventos de los buckets S3 invoquen la función Lambda.
+- Notificación del bucket S3 (aws_s3_bucket_notification.bucket_notification): establece la relación entre las actualizaciones del bucket y la ejecución de la función Lambda.
 
 ## 4.5 Análisis de codigo estático
 
@@ -112,11 +112,6 @@ En la aplicación de Frontend de React tampoco se encontraron errores críticos 
 - Test automatico de Shipping
 
 ![Test automatico de Shipping](./imagenes/testshipping.png)
-
-
-En los pasos de CI/CD de GitHub Actions, agregamos que se realize una prueba automatizada de Postman para comprobar que los endpoints estan funcionando de manera correcta. En este caso, el reporte muestra la ejecución de pruebas en el endpoint /shipping/c, el cual respondió correctamente con un código de estado 200 y un tiempo promedio de respuesta de 165ms. 
-
-Se realizaron cuatro verificaciones: que el código de respuesta sea 200, que la respuesta incluya los campos status e id, y que ambos sean cadenas no vacías. Todas las pruebas pasaron exitosamente, lo que confirma que el endpoint está funcionando correctamente, devuelve los datos esperados y tiene un tiempo de respuesta adecuado.
 
 ## 4.7 Tarea con Servicio Serverless
 
