@@ -63,8 +63,6 @@ Elegimos AWS como plataforma de la nube, en parte porque se nos brindaron cuenta
 
 ## 3.8 SonarQube
 
-Elegimos SonarQube como herramienta de análisis de código estático para realizar los análisis tanto de las 4 aplicaciones Backend como de la aplicación Frontend de React. En el CI/CD dejamos automatizado el realizar un análisis cada vez que detecta un cambio. En caso de que el análisis sea exitoso, se procederá con la build.
-
 ![Análisis de SonarQube](./imagenes/sonarqube.png)
 
 ## Análisis de SonarQube
