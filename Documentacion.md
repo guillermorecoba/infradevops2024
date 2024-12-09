@@ -1,9 +1,6 @@
 # Proyecto Obligatorio DEVOPS 2024S2 - CARLOS GILARDONI, GUILLERMO RECOBA
 
-Guillermo Recoba
-Carlos Gilardoni
-
-Universidad ORT
+/*INSERTAR IMAGEN DE ORT*/
 
 # 1. Presentación del problema
 
@@ -15,7 +12,7 @@ Mediante la implementación de un modelo DevOps, buscamos aprovechar al máximo 
 
 # 3. Herramientas utilizadas
 
-- **Azure DevOps** - Tablero Kanban
+- **Azure DevOps** - Tablero Kanban para planificación y seguimiento de tareas
 - **Terraform** - Manejo de la IaC
 - **GitHub** - Manejo de Git/Versionado de código
 - **GitHub Actions** - Manejo del CI/CD
@@ -23,7 +20,7 @@ Mediante la implementación de un modelo DevOps, buscamos aprovechar al máximo 
 - **Amazon Web Services** - Plataforma de servicios Cloud
 - **Amazon Elastic Container Service** - Orquestador de contenedores
 - **SonarQube** - Análisis de código estático
-- **Lambda** - Servicio serverless (por decidir/puede cambiar)
+- **Lambda** - Servicio serverless 
 
 ## 3.1 Azure DevOps
 
