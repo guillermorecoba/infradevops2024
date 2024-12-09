@@ -17,7 +17,22 @@ def lambda_handler(event, context):
     
     bucket_name = records[0]['s3']['bucket']['name']
     
+    sender_email = os.environ['SENDER_EMAIL']  
+    sender_password = os.environ['SENDER_PASSWORD']  
+    receiver_email = os.environ['RECEIVER_EMAIL'] 
+    
+    records = event.get('Records', [])
+    if not records:
+        return {
+            'statusCode': 400,
+            'body': "No se encontraron registros en el evento."
+        }
+    
+    bucket_name = records[0]['s3']['bucket']['name']
+    
     subject = "Deploy exitoso"
+    body = f"El deploy de la aplicación de React en el bucket {bucket_name} fue exitoso."
+    
     body = f"El deploy de la aplicación de React en el bucket {bucket_name} fue exitoso."
     
     msg = MIMEMultipart()
@@ -29,6 +44,7 @@ def lambda_handler(event, context):
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls() 
+        server.login(sender_email, sender_password)  
         server.login(sender_email, sender_password)  
         text = msg.as_string()
         server.sendmail(sender_email, receiver_email, text)
