@@ -80,14 +80,11 @@ Configuración de website estático (aws_s3_bucket_website_configuration.static_
 Versionado de objetos (aws_s3_bucket_versioning.versioning_example): para mantener un historial de cambios de los buckets.
 Política de acceso (aws_s3_bucket_policy.allow_access_from_another_account): políticas de acceso, en este caso otorga todos los permisos a todos los usuarios.
 
-Además, se implementa una función Lambda , hecha para activarse cuando se actualiza el archivo index.html en cualquiera de los buckets S3 (estas actualizaciones se gestionan desde el flujo de CI/CD). La función se configura con los siguientes recursos:
+Además, se implementa una función Lambda , hecha para activarse cuando se actualiza el archivo index.html en cualquiera de los buckets S3 (estas actualizaciones se gestionan desde el flujo de CI/CD).
+La función ejecuta un script escrito en phyton para mandar un email al e-mail de Guillermo (guirever@gmail.com) notificando que el deploy de la función se realizó exitosamente. La función se configura con los siguientes recursos:
 
 Permiso Lambda (aws_lambda_permission.allow_s3): permite que los eventos de los buckets S3 invoquen la función Lambda.
 Notificación del bucket S3 (aws_s3_bucket_notification.bucket_notification): establece la relación entre las actualizaciones del bucket y la ejecución de la función Lambda.
-Este enfoque automatiza la gestión de contenidos estáticos y facilita la integración continua entre los buckets S3 y las funciones Lambda.
-
-Se es
-
 
 ## 4.5 Análisis de codigo estático
 
