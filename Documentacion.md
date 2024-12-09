@@ -56,37 +56,30 @@ Como mencionamos en el punto anterior, elegimos GitHub Actions como nuestra herr
 En cada uno de los pipelines de los microservicios, realizamos pruebas de código estático, ejecutamos la aplicación y la dockerizamos, subimos la imagen generada a un repositorio público, y posteriormente llevamos a cabo pruebas automatizadas con Postman para validar el correcto funcionamiento de los microservicios.
 
 
-## 4.5 Infraestructura
+## 4.4 Infraestructura
 
 Elegimos Terraform como herramienta de despliegue de Infraestructura como Código (IaC) debido a su flexibilidad y compatibilidad con múltiples proveedores de nube. Terraform nos permite describir la infraestructura deseada en archivos de configuración que son fáciles de leer, versionar y mantener, asegurando consistencia y replicabilidad en los entornos de desarrollo, pruebas y producción.
 
 Tiene la capacidad de gestionar el ciclo de vida completo de los recursos, desde la creación hasta la eliminación, facilita la automatización y minimiza errores humanos. Además, su soporte para múltiples proveedores, como AWS, Azure y Google Cloud, y que haya sido la única herramienta de IaC con una guía en los prácticos, facilitaron nuestra decisión.
 
+Se utiliza como entrada las VPC y subnets recibidas a través de variables, se utilizan por defectos las predeterminadas de la cuenta de AWS Learner Lab de Guillermo. Para cada microservicio y entorno asociado, se crean de manera automatizada los siguientes recursos:
 
-
-## 3.5 DockerHub
-
-Utilizamos DockerHub para publicar las imágenes de Docker. Si bien posiblemente Amazon Elastic Container Registry (ECR) hubiese sido una opción válida para simplificar un poco más el trabajo, decidimos utilizar DockerHub por un tema de costos y practicidad. Si bien la versión gratuita de DockerHub tiene sus limitaciones, nos era más que suficiente para realizar la tarea asignada.
-
-## 3.6 Amazon Web Services
-
-Elegimos AWS como plataforma de la nube, en parte porque se nos brindaron cuentas con saldo para la realización de las tareas, pero además debido a su robustez, escalabilidad y amplia gama de servicios, que ofrecen soluciones completas para cumplir con las necesidades de nuestro proyecto. Al ser una empresa líder en el mercado de la nube, posee una infraestructura global confiable que asegura alta disponibilidad y prácticamente un nulo tiempo de inactividad, elementos clave para garantizar la continuidad de nuestras operaciones.
-
-## 3.7 Amazon Elastic Container Service
-
-*(Detalles a agregar más adelante)*
-
-## 3.8 SonarQube
-
-![Análisis de SonarQube](./imagenes/sonarqube.png)
-
-## Análisis de SonarQube
+- Un load balancer específico para cada microservicio.
+- Un target group asociado a cada balanceador.
+- Un listener para cada balanceador.
+- Un cluster ECS para gestionar las task de los microservicios.
+- Una task definition para definir la configuración del contenedor del microservicio. Cada task definition utiliza la imagen que corresponda al microservicio y al ambiente.
+- Un ECS service por cada microservicio y entorno, encargado de mantener la ejecución de las tareas en el cluster. Para cada microservicio se ejecutan 2 instancias del contenedor.
+- 
+## 4.5 Análisis de codigo estático
 
 Al realizar el análisis de las 4 aplicaciones Backend, los resultados concluyeron en que había algunos "Code Smells" que son indicios de que el código podría mejorarse para ser más limpio, mantenible o legible, pero no necesariamente representan un error crítico que afecte su ejecución. El análisis encontró algunas lineas de código duplicadas que se podrian tratar con el uso de variables, algunas anidaciones con un uso excesivo del "if"s y hacían más complicada la su comprensión a simple vista, y también algunas funciones repetidas en las distintas aplicaciones que no solo no tenían código, sino que tampoco tenían siquiera un comentario del porqué estaban vacias.
 
 En la aplicación de Frontend de React tampoco se encontraron errores críticos pero si encontró uno que se repitió en muchas ocasiones y se refiere a un problema en el estilo del código relacionado con el espaciado entre elementos, que dificulta la legibilidad y mantenibilidad, en especial con el uso de las etiquetas <span>, la solución es tan simple como eliminar los espacios innecesarios en el codigo. Por último tambien encontró imports sin utilizar, que simplemente con borrar los imports se solucionaria para asi evitar dependencias innecesarias y mantener el código un poco más limpio.
 
-## Prueba Extra (Prueba Automatizada con Postman)
+![Análisis de SonarQube](./imagenes/sonarqube.png)
+
+## 4.6 Prueba Extra (Prueba Automatizada con Postman)
 
 ![Test automatico de Postman](./imagenes/testpostman.png)
 
@@ -94,7 +87,7 @@ En los pasos de CI/CD de GitHub Actions, agregamos que se realize una prueba aut
 
 Se realizaron cuatro verificaciones: que el código de respuesta sea 200, que la respuesta incluya los campos status e id, y que ambos sean cadenas no vacías. Todas las pruebas pasaron exitosamente, lo que confirma que el endpoint está funcionando correctamente, devuelve los datos esperados y tiene un tiempo de respuesta adecuado.
 
-## Tarea con Servicio Serverless
+## 4.7 Tarea con Servicio Serverless
 
 Para esta tarea elegimos un servicio de AWS Lambda, al S3 Bucket donde se despliega la aplicación React le agregamos en las propiedades, una Notificación de Evento que detecta cuando se realiza el deploy dentro del Bucket y dispara la Funcion Lambda que esta configurada en Python para enviarnos un mail con la notificación que de la aplicación React fue desplegada con éxito. 
 
